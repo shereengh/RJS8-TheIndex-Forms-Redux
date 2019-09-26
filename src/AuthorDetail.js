@@ -31,7 +31,7 @@ class AuthorDetail extends Component {
             />
           </div>
           <BookTable books={author.books} />
-          <AddBookModal authorID={author.id} />
+          <AddBookModal author={author} />
         </div>
       );
     }

@@ -28,11 +28,11 @@ export const postBook = (book, author, closeModal) => {
   return async dispatch => {
     let post = {
       ...book,
-      author: [author.id]
+      authors: authors
     };
     try {
       const res = await instance.post("/api/books/", newBook);
-      const author = res.data;
+      const book = res.data;
       dispatch(resetErrors());
       dispatch({
         type: actionTypes.POST_BOOK,

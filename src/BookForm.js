@@ -1,9 +1,9 @@
 import React, { Component } from "react";
-
+import { postBook, resetErrors } from "./store/actions";
 class BookForm extends Component {
   state = {
     title: "",
-    color: []
+    color: ""
   };
 
   componentWillUnmount() {
@@ -12,7 +12,11 @@ class BookForm extends Component {
 
   submitBook = event => {
     event.preventDefault();
-    this.props.postBook(this.state, this.props.closeModal);
+    this.props.postBook(
+      this.state,
+      this.props.author.id,
+      this.props.closeModal
+    );
   };
   textChangeHandler = event => {
     this.setState({
@@ -57,7 +61,7 @@ class BookForm extends Component {
               value={this.state.color}
             />
           </div>
-          <input type="submit" />
+          <select name="color" onChange={this.textChangeHandler} />
         </form>
       </div>
     );
@@ -72,8 +76,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    postBook: (newBook, closeModal) =>
-      dispatch(actionCreators.postBook(newBook, closeModal)),
+    postBook: (newBook, authors, closeModal) =>
+      dispatch(actionCreators.postBook(newBook, authors, closeModal)),
     resetErrors: () => dispatch(actionCreators.resetErrors())
   };
 };
