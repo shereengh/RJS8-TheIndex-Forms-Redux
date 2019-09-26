@@ -1,4 +1,5 @@
 import * as actionTypes from "./actionTypes";
+import { resetErrors } from "./errors";
 
 import axios from "axios";
 
@@ -24,5 +25,26 @@ export const fetchAuthorDetail = authorID => {
 
 //POST THE BOOK TO https://the-index-api.herokuapp.com/api/books/
 export const postBook = (book, author, closeModal) => {
-  alert("I DON'T DO ANYTHING YET!");
+  return async dispatch => {
+    let post = {
+      ...book,
+      author: [author.id]
+    };
+    try {
+      const res = await instance.post("/api/books/", newBook);
+      const author = res.data;
+      dispatch(resetErrors());
+      dispatch({
+        type: actionTypes.POST_BOOK,
+        payload: post
+      });
+      dispatch(filterBooks(""));
+      closeModal();
+    } catch (err) {
+      dispatch({
+        type: actionTypes.SET_ERRORS,
+        payload: err.response.data
+      });
+    }
+  };
 };
